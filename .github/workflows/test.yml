@@ -26,7 +26,7 @@ jobs:
       - name: Build the Docker image
         run: |
           # 登录阿里云镜像容器服务
-          docker login --username=${{ secrets.DOCKER_USERNAME }} registry.cn-shenzhen.aliyuncs.com --password={{ secret.DOCKER_PASSWORD }}
+          docker login --username=${{ secrets.DOCKER_USERNAME }} registry.cn-shenzhen.aliyuncs.com --password=${{ secrets.DOCKER_PASSWORD }}
           # 使用当前目录的Dockerfile创建镜像，标签为blog-code:latest
           docker build -t blog-code:latest .
           # 打标签
