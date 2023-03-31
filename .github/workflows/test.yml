@@ -1,0 +1,43 @@
+# Action 名称
+name: Docker Image CI
+
+# 执行时机
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    # runs-on 指定job任务运行所需要的虚拟环境(必填字段)
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取代码
+      - name: checkout # 步骤名称
+        # 使用action库 action/checkout拉去源码
+        uses: actions/checkout@master
+      # 安装依赖
+      - name: install
+        run: npm install
+      # 打包
+      - name: build project
+        run: npm run build
+      # 登录阿里云镜像容器服务，打包镜像， 推送镜像
+      - name: Build the Docker image
+        run: |
+          # 登录阿里云镜像容器服务
+          docker login --username=${{ secrets.DOCKER_USERNAME }} registry.cn-shenzhen.aliyuncs.com --password={{ secret.DOCKER_PASSWORD }}
+          # 使用当前目录的Dockerfile创建镜像，标签为blog-code:latest
+          docker build -t blog-code:latest .
+          # 打标签
+          docker tag blog-code registry.cn-shenzhen.aliyuncs.com/ewan/first:latest
+          # 推送
+          docker push registry.cn-shenzhen.aliyuncs.com/ewan/first:latest
+      # 登录服务器执行脚本
+      - name: ssh docker login
+        uses: applyboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: cd /home/blog-code/ && sh blog-code.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
