@@ -35,7 +35,7 @@ jobs:
           docker push registry.cn-shenzhen.aliyuncs.com/ewan/first:latest
       # 登录服务器执行脚本
       - name: ssh docker login
-        uses: applyboy/ssh-action@main
+        uses: appleboy/ssh-action@main
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
