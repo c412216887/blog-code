@@ -15,7 +15,7 @@ jobs:
       # 拉取代码
       - name: checkout # 步骤名称
         # 使用action库 action/checkout拉去源码
-        uses: actions/checkout@master
+        uses: actions/checkout@main
       # 安装依赖
       - name: install
         run: npm install
@@ -35,7 +35,7 @@ jobs:
           docker push registry.cn-shenzhen.aliyuncs.com/ewan/first:latest
       # 登录服务器执行脚本
       - name: ssh docker login
-        uses: applyboy/ssh-action@master
+        uses: applyboy/ssh-action@main
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
