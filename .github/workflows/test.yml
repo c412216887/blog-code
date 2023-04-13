@@ -15,7 +15,7 @@ jobs:
       # 拉取代码
       - name: checkout # 步骤名称
         # 使用action库 action/checkout拉去源码
-        uses: actions/checkout@main
+        uses: actions/checkout@v3
       # 安装依赖
       - name: install
         run: npm install
@@ -40,4 +40,4 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          script: cd /home/blog-code/ && sh blog-code.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
+          script: cd / && sh dockerBootstrap.sh ${{ secrets.DOCKER_USERNAME }} ${{ secrets.DOCKER_PASSWORD }}
